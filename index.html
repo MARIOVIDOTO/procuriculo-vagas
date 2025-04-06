@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lista de Vagas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #DBEAFE;
+      padding: 15px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .header h1 {
+      color: #1E3A8A;
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .data-atualizacao {
+      font-size: 14px;
+      color: #2563EB;
+      font-weight: 500;
+    }
+    .vagas-container {
+      max-width: 100%;
+      margin: 0 auto;
+    }
+    .vaga-item {
+      background-color: white;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .vaga-info p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+    .vaga-info strong {
+      color: #1E40AF;
+    }
+    .cadastrar-btn {
+      background-color: #3B82F6;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 10px;
+      width: 100%;
+    }
+    .cadastrar-btn:hover {
+      background-color: #2563EB;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background-color: white;
+      padding: 15px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .modal-content h2 {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+    .modal-content button {
+      margin: 10px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      width: 100%;
+      font-size: 14px;
+    }
+    #emailBtn {
+      background-color: #60A5FA;
+    }
+    #emailBtn:hover {
+      background-color: #3B82F6;
+    }
+    #whatsappBtn {
+      background-color: #25D366;
+    }
+    #whatsappBtn:hover {
+      background-color: #20B956;
+    }
+    .email-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .email-modal-content {
+      background-color: white;
+      padding: 15px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .email-modal-content p {
+      font-size: 16px;
+      color: #1E3A8A;
+      margin-bottom: 15px;
+      word-wrap: break-word;
+    }
+    #fecharBtn {
+      background-color: #EF4444;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      font-family: 'Heebo', sans-serif;
+      font-weight: 500;
+      width: 100%;
+    }
+    #fecharBtn:hover {
+      background-color: #DC2626;
+    }
+    @media (min-width: 768px) {
+      .header h1 {
+        font-size: 35px;
+      }
+      .data-atualizacao {
+        font-size: 16px;
+      }
+      .vaga-item {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+      }
+      .vaga-info p {
+        font-size: 16px;
+      }
+      .cadastrar-btn {
+        width: auto;
+        padding: 10px 20px;
+      }
+      .modal-content button, #fecharBtn {
+        width: auto;
+        padding: 10px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Bem vindo. Confira as vagas disponíveis</h1>
+    <div class="data-atualizacao" id="dataAtualizacao"></div>
+  </div>
+  <div class="vagas-container" id="vagasList"></div>
+
+  <!-- Modal para escolha de envio -->
+  <div id="candidaturaModal" class="modal">
+    <div class="modal-content">
+      <h2>Enviar Currículo</h2>
+      <button id="emailBtn">Enviar meu currículo por e-mail</button>
+      <button id="whatsappBtn">Enviar meu currículo por WhatsApp</button>
+    </div>
+  </div>
+
+  <!-- Modal para instrução de e-mail -->
+  <div id="emailModal" class="email-modal">
+    <div class="email-modal-content">
+      <p>Encaminhe seu currículo para procurriculo.micropro.marilia@gmail.com</p>
+      <button id="fecharBtn">Fechar</button>
+    </div>
+  </div>
+
+  <script>
+    // Exibir a data atual
+    const hoje = new Date().toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+    document.getElementById('dataAtualizacao').textContent = `Vagas atualizadas em: ${hoje}`;
+
+    // URL da API do Apps Script
+    const apiUrl = 'https://script.google.com/macros/s/AKfycbwbjwTVfs7tkT2EbsD56x5ZxCLI3gRtrhmxeOPbTnHZ8D6AfBfFZCAzowYJcSlwTEdw/exec?page=listar';
+
+    // Carregar as vagas via fetch
+    fetch(apiUrl)
+      .then(response => response.json())
+      .then(vagas => {
+        const vagasList = document.getElementById('vagasList');
+        if (vagas.length === 0) {
+          vagasList.innerHTML = '<p>Nenhuma vaga cadastrada.</p>';
+        } else {
+          vagas.forEach(vaga => {
+            const div = document.createElement('div');
+            div.className = 'vaga-item';
+            div.innerHTML = `
+              <div class="vaga-info">
+                <p><strong>Código:</strong> ${vaga.codigo}</p>
+                <p><strong>Empresa:</strong> ${vaga.empresa}</p>
+                <p><strong>Descrição:</strong> ${vaga.descricao}</p>
+                <p><strong>Remuneração:</strong> ${vaga.remuneracao}</p>
+                <p><strong>Requisitos:</strong> ${vaga.requisitos}</p>
+              </div>
+              <button class="cadastrar-btn">Me Cadastrar</button>
+            `;
+            vagasList.appendChild(div);
+          });
+
+          document.querySelectorAll('.cadastrar-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+              document.getElementById('candidaturaModal').style.display = 'flex';
+            });
+          });
+        }
+      })
+      .catch(err => {
+        console.error('Erro ao carregar vagas:', err);
+        document.getElementById('vagasList').innerHTML = '<p>Erro ao carregar vagas. Tente novamente mais tarde.</p>';
+      });
+
+    const candidaturaModal = document.getElementById('candidaturaModal');
+    const emailModal = document.getElementById('emailModal');
+
+    document.getElementById('emailBtn').addEventListener('click', function() {
+      candidaturaModal.style.display = 'none';
+      emailModal.style.display = 'flex';
+    });
+
+    document.getElementById('whatsappBtn').addEventListener('click', function() {
+      window.location.href = 'https://wa.me/5514999035203';
+      candidaturaModal.style.display = 'none';
+    });
+
+    document.getElementById('fecharBtn').addEventListener('click', function() {
+      emailModal.style.display = 'none';
+    });
+
+    candidaturaModal.addEventListener('click', function(e) {
+      if (e.target === candidaturaModal) {
+        candidaturaModal.style.display = 'none';
+      }
+    });
+
+    emailModal.addEventListener('click', function(e) {
+      if (e.target === emailModal) {
+        emailModal.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
