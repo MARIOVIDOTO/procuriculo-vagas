@@ -207,15 +207,20 @@
     });
     document.getElementById('dataAtualizacao').textContent = `Vagas atualizadas em: ${hoje}`;
 
-    // URL da API do Apps Script
+    // URL da API do Apps Script (substitua pelo novo ID se mudou)
     const apiUrl = 'https://script.google.com/macros/s/AKfycbwbjwTVfs7tkT2EbsD56x5ZxCLI3gRtrhmxeOPbTnHZ8D6AfBfFZCAzowYJcSlwTEdw/exec?page=listar';
 
     // Carregar as vagas via fetch
     fetch(apiUrl)
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) throw new Error('Erro na resposta da API: ' + response.status);
+        return response.json();
+      })
       .then(vagas => {
         const vagasList = document.getElementById('vagasList');
-        if (vagas.length === 0) {
+        if (vagas.error) {
+          vagasList.innerHTML = `<p>${vagas.error}</p>`;
+        } else if (vagas.length === 0) {
           vagasList.innerHTML = '<p>Nenhuma vaga cadastrada.</p>';
         } else {
           vagas.forEach(vaga => {
@@ -243,7 +248,7 @@
       })
       .catch(err => {
         console.error('Erro ao carregar vagas:', err);
-        document.getElementById('vagasList').innerHTML = '<p>Erro ao carregar vagas. Tente novamente mais tarde.</p>';
+        document.getElementById('vagasList').innerHTML = '<p>Erro ao carregar vagas: ' + err.message + '. Tente novamente mais tarde.</p>';
       });
 
     const candidaturaModal = document.getElementById('candidaturaModal');
