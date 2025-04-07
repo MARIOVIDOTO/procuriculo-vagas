@@ -207,7 +207,6 @@
   </div>
 
   <script>
-    // Exibir a data atual
     const hoje = new Date().toLocaleDateString('pt-BR', {
       day: '2-digit',
       month: '2-digit',
@@ -215,10 +214,8 @@
     });
     document.getElementById('dataAtualizacao').textContent = `Vagas atualizadas em: ${hoje}`;
 
-    // URL da API do Apps Script
     const apiUrl = 'https://script.google.com/macros/s/AKfycbxmsrKawIUsR7tkLc0zofoovRM3FmUA1XLBJPlIQeXynRfO2otjL113DdXSTR6PxwWg/exec/exec?page=listar';
 
-    // Carregar as vagas via fetch
     fetch(apiUrl)
       .then(response => {
         if (!response.ok) throw new Error('Erro na resposta da API: ' + response.status);
