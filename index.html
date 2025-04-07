@@ -10,7 +10,6 @@
       margin: 0;
       background-color: #DBEAFE;
       padding: 15px;
-      
     }
     .header {
       text-align: center;
@@ -134,7 +133,7 @@
       margin-bottom: 15px;
       word-wrap: break-word;
     }
-    #fecharBtn, #fecharWhatsAppBtn {
+    #fecharEmailBtn, #fecharWhatsAppBtn {
       background-color: #EF4444;
       padding: 8px 16px;
       border: none;
@@ -145,7 +144,7 @@
       font-weight: 500;
       width: 100%;
     }
-    #fecharBtn:hover, #fecharWhatsAppBtn:hover {
+    #fecharEmailBtn:hover, #fecharWhatsAppBtn:hover {
       background-color: #DC2626;
     }
     @media (min-width: 768px) {
@@ -168,7 +167,7 @@
         width: auto;
         padding: 10px 20px;
       }
-      .modal-content button, #fecharBtn, #fecharWhatsAppBtn {
+      .modal-content button, #fecharEmailBtn, #fecharWhatsAppBtn {
         width: auto;
         padding: 10px 20px;
       }
@@ -187,14 +186,23 @@
     <div class="modal-content">
       <h2>Enviar Currículo</h2>
       <button id="emailBtn">Enviar meu currículo por e-mail</button>
-      </div>
+      <button id="whatsappBtn">Enviar meu currículo por WhatsApp</button>
+    </div>
   </div>
 
   <!-- Modal para instrução de e-mail -->
   <div id="emailModal" class="email-modal">
     <div class="email-modal-content">
       <p>Encaminhe seu currículo para procurriculo.micropro.marilia@gmail.com e coloque no título do e-mail o código da vaga.</p>
-      <button id="fecharBtn">Fechar</button>
+      <button id="fecharEmailBtn">Fechar</button>
+    </div>
+  </div>
+
+  <!-- Modal para instrução de WhatsApp -->
+  <div id="whatsappModal" class="whatsapp-modal">
+    <div class="whatsapp-modal-content">
+      <p>Favor encaminhar seu e-mail em PDF para o Whats (14) 99836-8632 com o código da vaga na mensagem.</p>
+      <button id="fecharWhatsAppBtn">Fechar</button>
     </div>
   </div>
 
@@ -262,7 +270,7 @@
       whatsappModal.style.display = 'flex';
     });
 
-    document.getElementById('fecharBtn').addEventListener('click', function() {
+    document.getElementById('fecharEmailBtn').addEventListener('click', function() {
       emailModal.style.display = 'none';
     });
 
