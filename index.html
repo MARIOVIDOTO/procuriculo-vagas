@@ -85,7 +85,7 @@
       font-size: 20px;
       margin-bottom: 15px;
     }
-    .modal-content button, .modal-content a {
+    .modal-content button {
       margin: 10px;
       padding: 8px 16px;
       border: none;
@@ -94,8 +94,6 @@
       cursor: pointer;
       width: 100%;
       font-size: 14px;
-      text-decoration: none;
-      display: inline-block;
     }
     #emailBtn {
       background-color: #60A5FA;
@@ -109,7 +107,7 @@
     #whatsappBtn:hover {
       background-color: #20B956;
     }
-    .email-modal {
+    .email-modal, .whatsapp-modal {
       display: none;
       position: fixed;
       top: 0;
@@ -121,7 +119,7 @@
       align-items: center;
       z-index: 1000;
     }
-    .email-modal-content {
+    .email-modal-content, .whatsapp-modal-content {
       background-color: white;
       padding: 15px;
       border-radius: 8px;
@@ -129,13 +127,13 @@
       max-width: 400px;
       text-align: center;
     }
-    .email-modal-content p {
+    .email-modal-content p, .whatsapp-modal-content p {
       font-size: 16px;
       color: #1E3A8A;
       margin-bottom: 15px;
       word-wrap: break-word;
     }
-    #fecharBtn {
+    #fecharBtn, #fecharWhatsAppBtn {
       background-color: #EF4444;
       padding: 8px 16px;
       border: none;
@@ -146,7 +144,7 @@
       font-weight: 500;
       width: 100%;
     }
-    #fecharBtn:hover {
+    #fecharBtn:hover, #fecharWhatsAppBtn:hover {
       background-color: #DC2626;
     }
     @media (min-width: 768px) {
@@ -169,7 +167,7 @@
         width: auto;
         padding: 10px 20px;
       }
-      .modal-content button, .modal-content a, #fecharBtn {
+      .modal-content button, #fecharBtn, #fecharWhatsAppBtn {
         width: auto;
         padding: 10px 20px;
       }
@@ -188,15 +186,23 @@
     <div class="modal-content">
       <h2>Enviar Currículo</h2>
       <button id="emailBtn">Enviar meu currículo por e-mail</button>
-      <a href="https://wa.me/5514998368632" target="_blank" id="whatsappBtn">Enviar meu currículo por WhatsApp</a>
+      <button id="whatsappBtn">Enviar meu currículo por WhatsApp</button>
     </div>
   </div>
 
   <!-- Modal para instrução de e-mail -->
   <div id="emailModal" class="email-modal">
     <div class="email-modal-content">
-      <p>Encaminhe seu currículo para procurriculo.micropro.marilia@gmail.com e coloque no titulo do e-mail o código da vaga.</p>
+      <p>Encaminhe seu currículo para procurriculo.micropro.marilia@gmail.com e coloque no título do e-mail o código da vaga.</p>
       <button id="fecharBtn">Fechar</button>
+    </div>
+  </div>
+
+  <!-- Modal para instrução de WhatsApp -->
+  <div id="whatsappModal" class="whatsapp-modal">
+    <div class="whatsapp-modal-content">
+      <p>Favor encaminhar seu e-mail em PDF para o Whats (14) 99836-8632 com o código da vaga na mensagem.</p>
+      <button id="fecharWhatsAppBtn">Fechar</button>
     </div>
   </div>
 
@@ -255,14 +261,24 @@
 
     const candidaturaModal = document.getElementById('candidaturaModal');
     const emailModal = document.getElementById('emailModal');
+    const whatsappModal = document.getElementById('whatsappModal');
 
     document.getElementById('emailBtn').addEventListener('click', function() {
       candidaturaModal.style.display = 'none';
       emailModal.style.display = 'flex';
     });
 
+    document.getElementById('whatsappBtn').addEventListener('click', function() {
+      candidaturaModal.style.display = 'none';
+      whatsappModal.style.display = 'flex';
+    });
+
     document.getElementById('fecharBtn').addEventListener('click', function() {
       emailModal.style.display = 'none';
+    });
+
+    document.getElementById('fecharWhatsAppBtn').addEventListener('click', function() {
+      whatsappModal.style.display = 'none';
     });
 
     candidaturaModal.addEventListener('click', function(e) {
@@ -274,6 +290,12 @@
     emailModal.addEventListener('click', function(e) {
       if (e.target === emailModal) {
         emailModal.style.display = 'none';
+      }
+    });
+
+    whatsappModal.addEventListener('click', function(e) {
+      if (e.target === whatsappModal) {
+        whatsappModal.style.display = 'none';
       }
     });
   </script>
