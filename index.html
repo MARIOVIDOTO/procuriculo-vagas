@@ -133,7 +133,7 @@
       margin-bottom: 15px;
       word-wrap: break-word;
     }
-    #fecharBtn, #fecharWhatsAppBtn {
+    #fecharEmailBtn, #fecharWhatsAppBtn {
       background-color: #EF4444;
       padding: 8px 16px;
       border: none;
@@ -144,21 +144,9 @@
       font-weight: 500;
       width: 100%;
     }
-    #fecharBtn:hover, #fecharWhatsAppBtn:hover {
+    #fecharEmailBtn:hover, #fecharWhatsAppBtn:hover {
       background-color: #DC2626;
     }
-
-    /* Estilo do modal de WhatsApp com fundo verde e texto preto */
-    .whatsapp-modal-content {
-      background-color: #25D366;
-      color: black;
-      font-family: 'Heebo', sans-serif;
-      font-size: 35px;
-      padding: 40px;
-      border-radius: 12px;
-      text-align: center;
-    }
-
     @media (min-width: 768px) {
       .header h1 {
         font-size: 35px;
@@ -179,7 +167,7 @@
         width: auto;
         padding: 10px 20px;
       }
-      .modal-content button, #fecharBtn, #fecharWhatsAppBtn {
+      .modal-content button, #fecharEmailBtn, #fecharWhatsAppBtn {
         width: auto;
         padding: 10px 20px;
       }
@@ -199,6 +187,14 @@
       <h2>Enviar Currículo</h2>
       <button id="emailBtn">Enviar meu currículo por e-mail</button>
       <button id="whatsappBtn">Enviar meu currículo por WhatsApp</button>
+    </div>
+  </div>
+
+  <!-- Modal para instrução de e-mail -->
+  <div id="emailModal" class="email-modal">
+    <div class="email-modal-content">
+      <p>Encaminhe seu currículo para procurriculo.micropro.marilia@gmail.com e coloque no título do e-mail o código da vaga.</p>
+      <button id="fecharEmailBtn">Fechar</button>
     </div>
   </div>
 
@@ -261,11 +257,21 @@
       });
 
     const candidaturaModal = document.getElementById('candidaturaModal');
+    const emailModal = document.getElementById('emailModal');
     const whatsappModal = document.getElementById('whatsappModal');
+
+    document.getElementById('emailBtn').addEventListener('click', function() {
+      candidaturaModal.style.display = 'none';
+      emailModal.style.display = 'flex';
+    });
 
     document.getElementById('whatsappBtn').addEventListener('click', function() {
       candidaturaModal.style.display = 'none';
       whatsappModal.style.display = 'flex';
+    });
+
+    document.getElementById('fecharEmailBtn').addEventListener('click', function() {
+      emailModal.style.display = 'none';
     });
 
     document.getElementById('fecharWhatsAppBtn').addEventListener('click', function() {
@@ -275,6 +281,12 @@
     candidaturaModal.addEventListener('click', function(e) {
       if (e.target === candidaturaModal) {
         candidaturaModal.style.display = 'none';
+      }
+    });
+
+    emailModal.addEventListener('click', function(e) {
+      if (e.target === emailModal) {
+        emailModal.style.display = 'none';
       }
     });
 
